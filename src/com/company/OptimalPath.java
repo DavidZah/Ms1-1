@@ -13,7 +13,7 @@ public class OptimalPath extends Process {
 
     public void actions() {
         List<Integer> path = Collections.emptyList();
-        PathFinder finder = new PathFinder(0,path,0);
+        PathFinder finder = new PathFinder(0, path, 0);
         activate(finder);
         hold(1000000);
     }
@@ -35,34 +35,36 @@ public class OptimalPath extends Process {
         List path;
 
 
-        PathFinder(int pos_, List path_,int cost_) {
+        PathFinder(int pos_, List path_, int cost_) {
             pos = pos_;
             List<Integer> newList = new ArrayList<Integer>(path_);
             path = newList;
             cost = cost_;
         }
-        public void actions () {
-                hold(cost);
-                path.add(pos);
-                for (int i = 0; i < 8; i++) {
-                    Boolean x = path.contains(i);
-                    if (matrix[pos][i] != 0 && !x) {
-                        PathFinder finder = new PathFinder(i,path,matrix[pos][i]);
-                        activate(finder);
-                    }
 
-                    if(pos == 7){
-                        int len =0;
-                        System.out.println(path);
-                        for(int j=1;j<path.size();j++){
-                            len +=matrix[(int) path.get(j - 1)][(int) path.get(j)];
-                        }
-                        System.out.println(len);
-                    }
+        public void actions() {
+            hold(cost);
+            path.add(pos);
+            for (int i = 0; i < 8; i++) {
+                Boolean x = path.contains(i);
+                if (matrix[pos][i] != 0 && !x) {
+                    PathFinder finder = new PathFinder(i, path, matrix[pos][i]);
+                    activate(finder);
                 }
-                this.terminated();
+
+                if (pos == 7) {
+                    int len = 0;
+
+                    for (int j = 1; j < path.size(); j++) {
+                        len += matrix[(int) path.get(j - 1)][(int) path.get(j)];
+                    }
+                    System.out.println("Path was "+path+" and price of path was " +len);
+
+                }
             }
+            this.terminated();
         }
+    }
 
 
     public static void main(String args[]) {
