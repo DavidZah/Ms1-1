@@ -9,6 +9,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class OptimalPath extends Process {
+    int[][] matrix = {{0, 5, 7, 0, 0, 0, 0, 0},
+            {5, 0, 4, 2, 14, 0, 0, 0},
+            {7, 4, 0, 0, 10, 0, 0, 0},
+            {0, 2, 0, 0, 0, 6, 0, 0},
+            {0, 14, 10, 0, 0, 9, 11, 0},
+            {0, 0, 0, 6, 9, 0, 0, 12},
+            {0, 0, 0, 0, 11, 0, 0, 15},
+            {0, 0, 0, 0, 0, 12, 15, 0}
+    };
 
 
     public void actions() {
@@ -19,16 +28,6 @@ public class OptimalPath extends Process {
     }
 
     class PathFinder extends Process {
-        int[][] matrix = {{0, 5, 7, 0, 0, 0, 0, 0},
-                {5, 0, 4, 2, 14, 0, 0, 0},
-                {7, 4, 0, 0, 10, 0, 0, 0},
-                {0, 2, 0, 0, 0, 6, 0, 0},
-                {0, 14, 10, 0, 0, 9, 11, 0},
-                {0, 0, 0, 6, 9, 0, 0, 12},
-                {0, 0, 0, 0, 11, 0, 0, 15},
-                {0, 0, 0, 0, 0, 12, 15, 0}
-        };
-
 
         int pos;
         int cost;
@@ -43,6 +42,15 @@ public class OptimalPath extends Process {
         }
 
         public void actions() {
+            if (pos == 7) {
+                int len = 0;
+                path.add(pos);
+                for (int j = 1; j < path.size(); j++) {
+                    len += matrix[(int) path.get(j - 1)][(int) path.get(j)];
+                }
+                System.out.println("Path was "+path+" and price of path was " +len);
+
+            }
             hold(cost);
             path.add(pos);
             for (int i = 0; i < 8; i++) {
@@ -52,15 +60,6 @@ public class OptimalPath extends Process {
                     activate(finder);
                 }
 
-                if (pos == 7) {
-                    int len = 0;
-
-                    for (int j = 1; j < path.size(); j++) {
-                        len += matrix[(int) path.get(j - 1)][(int) path.get(j)];
-                    }
-                    System.out.println("Path was "+path+" and price of path was " +len);
-
-                }
             }
             this.terminated();
         }
